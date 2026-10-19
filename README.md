@@ -113,7 +113,7 @@ You will defend these choices at the oral, on your own code.
 
 ## Start
 
-Current commands (step 04):
+Current commands (step 05):
 
 ```bash
 uv run main.py
@@ -121,6 +121,8 @@ uv run main.py venues
 uv run main.py programme 2027-06-11
 uv run main.py artist max-pellerin
 uv run main.py now 2027-06-11T21:00
+uv run main.py add
+uv run main.py cancel la-cabane-2027-06-13-0800
 ```
 
 The programme command takes the day directly instead of asking interactively.
@@ -128,8 +130,19 @@ The other exploration reports from step 01 have been retired, as step 03 allows.
 
 ### Known bugs
 
-Invalid date or time text (for example, `programme June-11`) still produces
-a traceback. Step 05 will add clear error messages.
+Invalid input, unknown identifiers, scheduling conflicts, missing files and
+damaged JSON now print `Error: ...` and exit with code 1.
+The `add` command asks for a solo show's title, artist slug, venue slug,
+start and duration. It checks festival days, durations and the 30-minute
+venue and artist gaps, including hosts, acts and teachers. New solo shows
+use an empty description and a minimum audience age of 0.
+Successful additions and cancellations save the JSON file. A failed check
+changes nothing; saves replace the file only after the new JSON is written.
+
+### Known limitations
+
+Only solo shows can be added from the terminal at this step. The specialised
+lineup and workshop rules will be completed in later steps.
 
 The overnight programme bug is fixed: festival days end at 06:00, so
 After Hours at 01:00 on 12 June now belongs to Friday 11 June. Programme
