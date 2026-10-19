@@ -113,6 +113,24 @@ You will defend these choices at the oral, on your own code.
 
 ## Start
 
+Current commands (step 03):
+
+```bash
+uv run main.py
+uv run main.py venues
+uv run main.py programme 2027-06-11
+uv run main.py artist max-pellerin
+```
+
+The programme command takes the day directly instead of asking interactively.
+The other exploration reports from step 01 have been retired, as step 03 allows.
+
+### Known bugs
+
+The programme still groups shows by calendar date. After Hours at 01:00 on
+12 June appears on 12 June instead of the previous festival day, which ends
+at 06:00. Step 04 will fix this using real dates and times.
+
 Follow the project track, from its step 00:
 
 ```bash
