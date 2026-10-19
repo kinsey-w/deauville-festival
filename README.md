@@ -113,13 +113,14 @@ You will defend these choices at the oral, on your own code.
 
 ## Start
 
-Current commands (step 03):
+Current commands (step 04):
 
 ```bash
 uv run main.py
 uv run main.py venues
 uv run main.py programme 2027-06-11
 uv run main.py artist max-pellerin
+uv run main.py now 2027-06-11T21:00
 ```
 
 The programme command takes the day directly instead of asking interactively.
@@ -127,9 +128,13 @@ The other exploration reports from step 01 have been retired, as step 03 allows.
 
 ### Known bugs
 
-The programme still groups shows by calendar date. After Hours at 01:00 on
-12 June appears on 12 June instead of the previous festival day, which ends
-at 06:00. Step 04 will fix this using real dates and times.
+Invalid date or time text (for example, `programme June-11`) still produces
+a traceback. Step 05 will add clear error messages.
+
+The overnight programme bug is fixed: festival days end at 06:00, so
+After Hours at 01:00 on 12 June now belongs to Friday 11 June. Programme
+and artist listings show start and end times. The `now` command lists
+current performances and the next three, ordered by start then venue name.
 
 Follow the project track, from its step 00:
 
