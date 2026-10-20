@@ -113,7 +113,7 @@ You will defend these choices at the oral, on your own code.
 
 ## Start
 
-Current commands (step 05):
+Current commands (step 07):
 
 ```bash
 uv run main.py
@@ -123,10 +123,39 @@ uv run main.py artist max-pellerin
 uv run main.py now 2027-06-11T21:00
 uv run main.py add
 uv run main.py cancel la-cabane-2027-06-13-0800
+uv run python -m uvicorn api:app --reload
 ```
 
 The programme command takes the day directly instead of asking interactively.
 The other exploration reports from step 01 have been retired, as step 03 allows.
+
+Start the web server with the last command, then open http://127.0.0.1:8000.
+The website now displays the festival dates, day tabs, venue filter and
+artist grid. Interactive API documentation is at http://127.0.0.1:8000/docs.
+The routes include `/api/festival`, `/api/venues`, `/api/artists`,
+`/api/artists/{slug}`, `/api/programme` (optional `day` and `venue`
+filters) and `/api/performances/{id}`.
+
+### Classes (step 07 design)
+
+- `Venue` in `models.py` holds a name, capacity and address. It validates
+  its values, computes its slug and supplies the API representation.
+- `Artist` holds a name, biography and photo URL. It computes its slug
+  and supplies its public representation.
+- `Performance` holds the common show data and references actual venue
+  and artist objects. One class handles all three kinds for now, with
+  optional fields for their specific information. It computes its end,
+  festival day, ID, capacity, summary and public representation, and can
+  identify an artist's role. Inheritance is deferred to step 09.
+
+JSON dictionaries are converted to these objects when loading, and objects
+are converted back to saved dictionaries only when writing. The top-level
+festival remains a dictionary of metadata and object lists until step 08.
+
+`festival.py` contains the shared data, scheduling and storage functions;
+`main.py` handles terminal input/output and commands; `api.py` handles HTTP
+routes and serves the supplied public website. Both entry points use the
+same festival functions.
 
 ### Known bugs
 
@@ -143,6 +172,9 @@ changes nothing; saves replace the file only after the new JSON is written.
 
 Only solo shows can be added from the terminal at this step. The specialised
 lineup and workshop rules will be completed in later steps.
+The programme cards and artist detail pages now work. The on-stage section
+remains empty: `/api/now` is deferred to step 08. Admin routes are also
+not implemented yet.
 
 The overnight programme bug is fixed: festival days end at 06:00, so
 After Hours at 01:00 on 12 June now belongs to Friday 11 June. Programme
